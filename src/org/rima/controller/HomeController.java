@@ -1,5 +1,10 @@
 package org.rima.controller;
 
+
+import java.util.List;
+
+import org.rima.db.DbConnection;
+import org.rima.model.Producto;
 import org.rima.model.Shop;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -41,5 +46,44 @@ public class HomeController {
 		
 		return new ResponseEntity<Void>( HttpStatus.OK );
 	}
+	@RequestMapping(value="/v4", method = RequestMethod.GET, produces="application/json")
+	public ResponseEntity<String> getShopInJSON4() {
+		DbConnection db;
+		db = new DbConnection();
+		db.getConnection();
+		List<Producto> productos = db.select();
+		String prod;
+		prod = new String();
+		int i = 0; 
+		int k = 0;
+		for(Producto p : productos){
+			System.out.println(p.getCodigoProducto());
+			System.out.println(p.getNombreProducto());
+			System.out.println(p.getTipo());
+			System.out.println(p.getDescripcion());
+			System.out.println(p.getPrecio());
+			prod = prod + p.getNombreProducto()+ p.getDescripcion() + "\n";
+			
+		}
+		
+		return new ResponseEntity<String>(prod, HttpStatus.OK);
 
+	}
+	@RequestMapping(value="/v5", method = RequestMethod.GET, produces="application/json")
+	public ResponseEntity<String> insertProducto() {
+		DbConnection db;
+		db = new DbConnection();
+		db.getConnection();
+		Producto p; 
+		p = new Producto();
+		p.setCodigoProducto(34);
+		p.setNombreProducto("PALA");
+		p.setTipo("A");
+		p.setDescripcion("HERRAMIENTAS");
+		p.setPrecio(3000F);
+		db.insert(p);
+		
+		return new ResponseEntity<String>(HttpStatus.OK);
+
+	}
 }

@@ -1,8 +1,8 @@
 package org.rima.model;
 
 public class Shop {
-	String name;
-	Integer size;
+	private String name;
+	private Integer size;
 
 	public String getName() {
 		return name;

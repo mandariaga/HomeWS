@@ -8,8 +8,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 @Controller
+@EnableWebMvc
 @RequestMapping("/home")
 public class HomeController {
 	@RequestMapping(value="{name}", method = RequestMethod.GET, produces="application/json")
@@ -22,6 +24,15 @@ public class HomeController {
 	public ResponseEntity<String> getShopInJSON2(@PathVariable String name) {
 
 		return new ResponseEntity<String>(name + "_hola", HttpStatus.OK);
+
+	}
+	@RequestMapping(value="/v3/{name}", method = RequestMethod.GET, headers = {"Accept=text/xml, application/json"})
+	public ResponseEntity<Shop> getShopInJSON3(@PathVariable String name) {
+		Shop  s;
+		s = new Shop();
+		s.setName(name);
+		s.setSize(10);
+		return new ResponseEntity<Shop>(s, HttpStatus.OK);
 
 	}
 	@RequestMapping(value="/shop/create", method=RequestMethod.POST, produces="application/json", consumes="application/json")

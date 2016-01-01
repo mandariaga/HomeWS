@@ -86,4 +86,26 @@ public class HomeController {
 		return new ResponseEntity<String>(HttpStatus.OK);
 
 	}
+	@RequestMapping(value="/v7", method = RequestMethod.GET, produces="application/json")
+	public ResponseEntity<String> getShopInJSON7() {
+		DbConnection db;
+		db = new DbConnection();
+		db.getConnection();
+		List<Producto> productos = db.select();
+		String prod;
+		prod = new String();
+		
+		for(Producto p : productos){
+			System.out.println(p.getCodigoProducto());
+			System.out.println(p.getNombreProducto());
+			System.out.println(p.getTipo());
+			System.out.println(p.getDescripcion());
+			System.out.println(p.getPrecio());
+			if (p.getPrecio() > 1000);
+			prod = prod + p.getNombreProducto()+ p.getDescripcion() + p.getTipo() + p.getPrecio();
+			
+		}
+		
+		return new ResponseEntity<String>(prod, HttpStatus.OK);
+	}
 }
